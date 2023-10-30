@@ -13,13 +13,12 @@ public class DatabaseHelper
     public static final String TABLE_NAME = "Estudiantes";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_NOMBRE = "nombre";
-    public static final String COLUMN_ANO_ESTUDIO = "ano_estudio";
+
 
     private static final String TABLE_CREATE =
             "CREATE TABLE " + TABLE_NAME + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_NOMBRE + " TEXT, " +
-                    COLUMN_ANO_ESTUDIO + " INTEGER);";
+                    COLUMN_NOMBRE + " TEXT);";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

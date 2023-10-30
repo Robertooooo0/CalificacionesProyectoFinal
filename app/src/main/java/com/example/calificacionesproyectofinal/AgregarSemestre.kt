@@ -1,6 +1,6 @@
 package com.example.calificacionesproyectofinal
 
-import DatabaseManager
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -32,7 +32,8 @@ class AgregarSemestre : AppCompatActivity() {
             if (resultado != -1L) {
                 // Inserción exitosa
                 Toast.makeText(this, "Datos guardados exitosamente", Toast.LENGTH_SHORT).show()
-                editTextNombre.text.clear()
+                val intent = Intent(this, Semestre::class.java)
+                startActivity(intent)
             } else {
                 // Error al guardar
                 Toast.makeText(this, "Error al guardar datos", Toast.LENGTH_SHORT).show()
