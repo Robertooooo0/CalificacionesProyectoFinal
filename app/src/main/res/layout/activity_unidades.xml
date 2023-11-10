@@ -33,7 +33,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <Button
-        android:id="@+id/btnagregarunidades"
+        android:id="@+id/btnSiguienteunidades"
         android:layout_width="62dp"
         android:layout_height="66dp"
         android:text="+"

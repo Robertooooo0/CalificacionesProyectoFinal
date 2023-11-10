@@ -27,7 +27,7 @@
         android:id="@+id/editTextNombre"
         android:layout_width="311dp"
         android:layout_height="64dp"
-        android:hint="Ingrese el nombre"
+        android:hint="Ingrese el nombre del semestre"
         app:layout_constraintBottom_toTopOf="@+id/buttonGuardar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

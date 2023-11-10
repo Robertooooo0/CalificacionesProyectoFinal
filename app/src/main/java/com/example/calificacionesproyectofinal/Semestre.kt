@@ -6,6 +6,7 @@ import android.database.Cursor
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,7 @@ class Semestre : AppCompatActivity() {
         txtNombre = findViewById(R.id.txtNombre2)
         val btnSiguiente = findViewById<Button>(R.id.btnSiguiente)
         rvSemestre = findViewById(R.id.rvSemestre)
+
         // Obtener el nombre guardado en SharedPreferences
         val preferences = getSharedPreferences("misdatos", Context.MODE_PRIVATE)
         val nombre = preferences.getString("nombre", "aun no se registra")
@@ -34,6 +36,10 @@ class Semestre : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // Inicializa el DatabaseManager
+        databaseManager = DatabaseManager(this)
+        databaseManager?.open()
+
         // Llamada al método para consultar datos
         val listaNombresSemestre = consultarDatos()
 
@@ -42,37 +48,40 @@ class Semestre : AppCompatActivity() {
         rvSemestre.layoutManager = LinearLayoutManager(this)
     }
 
-    fun consultarDatos(): List<NombreSemestre> {
-        val projection = arrayOf(DatabaseHelper.COLUMN_NOMBRE)
+    private fun consultarDatos(): List<NombreSemestre> {
+        val projection = arrayOf(DatabaseHelper.COLUMN_NOMBRE_SEMESTRE)
         val selection: String? = null
         val selectionArgs: Array<String>? = null
         val sortOrder: String? = null
-        databaseManager = DatabaseManager(this)
-        databaseManager!!.open()
-        val cursor: Cursor = databaseManager!!.queryData(projection, selection, selectionArgs, sortOrder)
-        val nombresSemestre: MutableList<NombreSemestre> = ArrayList<NombreSemestre>()
 
-        try {
-            if (cursor != null && cursor.moveToFirst()) {
-                val columnIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_NOMBRE)
+        val cursor = databaseManager?.queryData(DatabaseHelper.TABLE_SEMESTRES, projection, selection, selectionArgs, sortOrder)
+
+        val nombresSemestre: MutableList<NombreSemestre> = mutableListOf()
+
+        cursor?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                val columnIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_NOMBRE_SEMESTRE)
                 do {
                     val nombre = cursor.getString(columnIndex)
                     val nombreObj = NombreSemestre(nombre)
                     nombresSemestre.add(nombreObj)
                 } while (cursor.moveToNext())
             }
-        } finally {
-            cursor?.close()
         }
 
-        databaseManager!!.close()
-        return nombresSemestre
+
+    return nombresSemestre
     }
 
-    fun onClickSemestre(semestre:NombreSemestre){
+    fun onClickSemestre(semestre: NombreSemestre) {
         val intent = Intent(this, Unidades::class.java)
-        intent.putExtra("NombreSemestre", (semestre.nombre).toString())
+        intent.putExtra("NombreSemestre", semestre.nombre)
 
         startActivity(intent)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        databaseManager?.close()
     }
 }

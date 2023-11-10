@@ -28,7 +28,7 @@ class AgregarSemestre : AppCompatActivity() {
                 editTextNombre.text.toString().trim() // Eliminar espacios iniciales y finales
 
             if (nombre.isNotEmpty()) { // Verificar que el nombre no esté vacío
-                val resultado = databaseManager.insert(nombre)
+                val resultado = databaseManager.insertSemestre(nombre)
 
                 if (resultado != -1L) {
                     // Inserción exitosa
