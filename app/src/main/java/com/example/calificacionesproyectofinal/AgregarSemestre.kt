@@ -24,19 +24,24 @@ class AgregarSemestre : AppCompatActivity() {
         databaseManager.open()
 
         buttonGuardar.setOnClickListener {
-            val nombre = editTextNombre.text.toString()
-            val anoEstudio = 2023 // Puedes cambiar esto según el año de estudio que desees guardar
+            val nombre =
+                editTextNombre.text.toString().trim() // Eliminar espacios iniciales y finales
 
-            val resultado = databaseManager.insert(nombre, anoEstudio)
+            if (nombre.isNotEmpty()) { // Verificar que el nombre no esté vacío
+                val resultado = databaseManager.insert(nombre)
 
-            if (resultado != -1L) {
-                // Inserción exitosa
-                Toast.makeText(this, "Datos guardados exitosamente", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, Semestre::class.java)
-                startActivity(intent)
+                if (resultado != -1L) {
+                    // Inserción exitosa
+                    Toast.makeText(this, "Datos guardados exitosamente", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, Semestre::class.java)
+                    startActivity(intent)
+                } else {
+                    // Error al guardar
+                    Toast.makeText(this, "Error al guardar datos", Toast.LENGTH_SHORT).show()
+                }
             } else {
-                // Error al guardar
-                Toast.makeText(this, "Error al guardar datos", Toast.LENGTH_SHORT).show()
+                // Nombre vacío, mostrar un mensaje o realizar una acción apropiada
+                Toast.makeText(this, "El nombre no puede estar vacío", Toast.LENGTH_SHORT).show()
             }
         }
     }

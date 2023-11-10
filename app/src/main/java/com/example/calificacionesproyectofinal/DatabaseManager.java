@@ -27,7 +27,7 @@ public class DatabaseManager {
         dbHelper.close();
     }
 
-    public long insert(String nombre, int anoEstudio) {
+    public long insert(String nombre) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.COLUMN_NOMBRE, nombre);
 

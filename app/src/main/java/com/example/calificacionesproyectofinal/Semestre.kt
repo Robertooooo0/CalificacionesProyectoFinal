@@ -6,7 +6,6 @@ import android.database.Cursor
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -71,7 +70,7 @@ class Semestre : AppCompatActivity() {
     }
 
     fun onClickSemestre(semestre:NombreSemestre){
-        val intent = Intent(this, Materias::class.java)
+        val intent = Intent(this, Unidades::class.java)
         intent.putExtra("NombreSemestre", (semestre.nombre).toString())
 
         startActivity(intent)
