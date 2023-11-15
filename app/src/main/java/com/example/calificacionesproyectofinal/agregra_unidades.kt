@@ -9,39 +9,39 @@ import android.widget.Toast
 class agregra_unidades : AppCompatActivity() {
     lateinit var txtguardarunidades: EditText
     lateinit var btnguardarunidades: Button
-    lateinit var databaseManager: DatabaseManager // Asegúrate de inicializar esto en el onCreate
+    lateinit var databaseManager: DatabaseManager
+    var idSemestre: Int = -1 // Inicializa el ID del semestre con un valor predeterminado
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_agregra_unidades)
 
         txtguardarunidades = findViewById(R.id.txtguardarunidades)
         btnguardarunidades = findViewById(R.id.btnguardarunidades)
-        databaseManager = DatabaseManager(this) // Inicializa tu DatabaseManager
+        databaseManager = DatabaseManager(this)
+
+        // Recibir el ID del semestre desde la actividad anterior
+        idSemestre = intent.getIntExtra("IdSemestre", -1)
 
         btnguardarunidades.setOnClickListener {
             val nombreUnidad = txtguardarunidades.text.toString().trim()
 
-            if (nombreUnidad.isNotEmpty()) { // Verifica si el campo no está vacío
-                val idSemestre = 0 // Reemplaza esto por la lógica para obtener el ID del semestre
-
-                // Guardar en la base de datos
+            if (nombreUnidad.isNotEmpty() && idSemestre != -1) {
+                // Guardar en la base de datos utilizando el ID del semestre recibido
                 databaseManager.open()
                 val result = databaseManager.insertUnidad(nombreUnidad, idSemestre)
                 databaseManager.close()
 
                 if (result != -1L) {
-                    // Éxito al guardar
                     Toast.makeText(this, "Unidad guardada correctamente", Toast.LENGTH_SHORT).show()
                     onBackPressed()
                 } else {
-                    // Error al guardar
                     Toast.makeText(this, "Error al guardar la unidad", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                // Campo vacío, muestra un mensaje al usuario
                 Toast.makeText(
                     this,
-                    "Por favor, ingresa el nombre de la unidad",
+                    "Por favor, ingresa el nombre de la unidad o selecciona un semestre válido",
                     Toast.LENGTH_SHORT
                 ).show()
             }
