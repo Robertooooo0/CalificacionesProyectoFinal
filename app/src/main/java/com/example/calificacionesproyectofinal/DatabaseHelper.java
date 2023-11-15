@@ -28,7 +28,7 @@ public class DatabaseHelper
         db.execSQL(createUnidadesTable);
 
         String createSemestresTable = "CREATE TABLE " + TABLE_SEMESTRES + " (" +
-                "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "id_semestre INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NOMBRE_SEMESTRE + " TEXT)";
         db.execSQL(createSemestresTable);
     }

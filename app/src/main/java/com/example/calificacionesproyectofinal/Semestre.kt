@@ -49,7 +49,7 @@ class Semestre : AppCompatActivity() {
     }
 
     private fun consultarDatos(): List<NombreSemestre> {
-        val projection = arrayOf(DatabaseHelper.COLUMN_NOMBRE_SEMESTRE)
+        val projection = arrayOf(DatabaseHelper.COLUMN_NOMBRE_SEMESTRE, DatabaseHelper.COLUMN_ID_SEMESTRE)
         val selection: String? = null
         val selectionArgs: Array<String>? = null
         val sortOrder: String? = null
@@ -61,9 +61,13 @@ class Semestre : AppCompatActivity() {
         cursor?.use { cursor ->
             if (cursor.moveToFirst()) {
                 val columnIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_NOMBRE_SEMESTRE)
+                val columnIndex2= cursor.getColumnIndex(DatabaseHelper.COLUMN_ID_SEMESTRE)
+
                 do {
                     val nombre = cursor.getString(columnIndex)
-                    val nombreObj = NombreSemestre(nombre)
+                    val idSemestre = cursor.getInt(columnIndex2)
+                    val nombreObj = NombreSemestre(nombre, idSemestre)
+
                     nombresSemestre.add(nombreObj)
                 } while (cursor.moveToNext())
             }
@@ -74,13 +78,14 @@ class Semestre : AppCompatActivity() {
     }
 
     fun onClickSemestre(semestre: NombreSemestre) {
-        val intent = Intent(this, Unidades::class.java)
-        intent.putExtra("NombreSemestre", semestre.nombre)
 
-        startActivity(intent)
-    }
+            val intent = Intent(this, Unidades::class.java)
+            intent.putExtra("NombreSemestre", semestre.nombre)
+            intent.putExtra("IdSemestre", semestre.idSemestre) // Suponiendo que tienes un método para obtener el ID del semestre
+            startActivity(intent)
+        }
 
-    override fun onDestroy() {
+        override fun onDestroy() {
         super.onDestroy()
         databaseManager?.close()
     }
