@@ -8,8 +8,11 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class Unidades : AppCompatActivity() {
+
     lateinit var txtSemestre: TextView
     lateinit var txtIdSemestre: TextView
 
@@ -33,5 +36,44 @@ class Unidades : AppCompatActivity() {
             intent.putExtra("IdSemestre", idSemestre)
             startActivity(intent)
         }
+
+        // Obtener la lista de unidades del semestre desde la base de datos
+        val unidades = obtenerUnidadesPorIdSemestre(idSemestre)
+
+        // Configurar el RecyclerView
+        val recyclerView = findViewById<RecyclerView>(R.id.rcvMostrarUnidades)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        val adapter = UnidadesAdapter(unidades)
+        recyclerView.adapter = adapter
+    }
+
+    private fun obtenerUnidadesPorIdSemestre(idSemestre: Int): List<String> {
+        val unidadesList = mutableListOf<String>()
+
+        // Acceder a la base de datos para obtener las unidades correspondientes al ID de semestre
+        val databaseManager = DatabaseManager(this)
+        databaseManager.open()
+
+        // Hacer la consulta para obtener las unidades del semestre específico
+        val cursor = databaseManager.queryData(
+            DatabaseHelper.TABLE_UNIDADES,
+            arrayOf(DatabaseHelper.COLUMN_NOMBRE_UNIDAD),
+            "${DatabaseHelper.COLUMN_ID_SEMESTRE} = ?",
+            arrayOf(idSemestre.toString()),
+            null
+        )
+
+        // Recorrer el cursor y agregar las unidades a la lista
+        cursor?.use {
+            while (it.moveToNext()) {
+                val nombreUnidad = it.getString(it.getColumnIndex(DatabaseHelper.COLUMN_NOMBRE_UNIDAD))
+                unidadesList.add(nombreUnidad)
+            }
+        }
+
+        databaseManager.close()
+
+        return unidadesList
     }
 }
+
