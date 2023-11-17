@@ -34,8 +34,8 @@
 
     <Button
         android:id="@+id/btnSiguienteunidades"
-        android:layout_width="62dp"
-        android:layout_height="66dp"
+        android:layout_width="55dp"
+        android:layout_height="63dp"
         android:text="+"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -15,6 +15,7 @@ public class DatabaseHelper
     public static final String COLUMN_ID_SEMESTRE = "id_semestre";
     public static final String COLUMN_NOMBRE_SEMESTRE = "nombre_semestre";
 
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
