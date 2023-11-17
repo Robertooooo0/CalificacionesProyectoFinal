@@ -1,5 +1,7 @@
 package com.example.calificacionesproyectofinal
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -34,10 +36,18 @@ class agregra_unidades : AppCompatActivity() {
 
                 if (result != -1L) {
                     Toast.makeText(this, "Unidad guardada correctamente", Toast.LENGTH_SHORT).show()
-                    onBackPressed()
+                    val intent = Intent()
+                    intent.putExtra("IdSemestre", idSemestre)
+                    setResult(Activity.RESULT_OK, intent)
+                    finish()
                 } else {
                     Toast.makeText(this, "Error al guardar la unidad", Toast.LENGTH_SHORT).show()
                 }
+
+                intent.putExtra("IdSemestre", idSemestre)
+                    setResult(Activity.RESULT_OK, intent)
+                    finish()
+
             } else {
                 Toast.makeText(
                     this,

@@ -1,5 +1,6 @@
 package com.example.calificacionesproyectofinal
 
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
@@ -11,10 +12,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class Unidades : AppCompatActivity() {
+class Unidades : AppCompatActivity(), UnidadesAdapter.OnUnidadClickListener {
 
     lateinit var txtSemestre: TextView
     lateinit var txtIdSemestre: TextView
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: UnidadesAdapter
+    private var unidadesList = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,22 +32,22 @@ class Unidades : AppCompatActivity() {
 
         txtSemestre.text = nombreS
         txtIdSemestre.text = "ID del Semestre: $idSemestre" // Mostrar el ID del semestre
+
         val btnSiguienteUnidades = findViewById<Button>(R.id.btnSiguienteunidades)
 
         btnSiguienteUnidades.setOnClickListener {
             val intent = Intent(this, agregra_unidades::class.java)
-            // Puedes pasar el ID del semestre a la siguiente actividad si es necesario
             intent.putExtra("IdSemestre", idSemestre)
-            startActivity(intent)
+            startActivityForResult(intent, REQUEST_CODE_AGREGAR_UNIDAD)
         }
 
         // Obtener la lista de unidades del semestre desde la base de datos
-        val unidades = obtenerUnidadesPorIdSemestre(idSemestre)
+        unidadesList.addAll(obtenerUnidadesPorIdSemestre(idSemestre))
 
-        // Configurar el RecyclerView
-        val recyclerView = findViewById<RecyclerView>(R.id.rcvMostrarUnidades)
+        // Configurar el RecyclerView con el listener
+        recyclerView = findViewById(R.id.rcvMostrarUnidades)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        val adapter = UnidadesAdapter(unidades)
+        adapter = UnidadesAdapter(unidadesList, this)
         recyclerView.adapter = adapter
     }
 
@@ -74,6 +78,33 @@ class Unidades : AppCompatActivity() {
         databaseManager.close()
 
         return unidadesList
+    }
+
+    override fun onUnidadClick(id: Int, nombre: String) {
+        val intent = Intent(this, Materias::class.java)
+        intent.putExtra("IdUnidad", id)
+        intent.putExtra("NombreUnidad", nombre)
+        startActivity(intent)
+    }
+
+    companion object {
+        private const val REQUEST_CODE_AGREGAR_UNIDAD = 123
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_AGREGAR_UNIDAD && resultCode == Activity.RESULT_OK) {
+            val idSemestre = data?.getIntExtra("IdSemestre", -1)
+            if (idSemestre != null && idSemestre != -1) {
+                actualizarListaUnidades(idSemestre)
+            }
+        }
+    }
+
+    private fun actualizarListaUnidades(idSemestre: Int) {
+        unidadesList.clear()
+        unidadesList.addAll(obtenerUnidadesPorIdSemestre(idSemestre))
+        adapter.notifyDataSetChanged()
     }
 }
 
