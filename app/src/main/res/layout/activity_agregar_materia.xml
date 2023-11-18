@@ -35,21 +35,24 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RcvMostrarUnidadesEnMaterias"
-        android:layout_width="360dp"
+        android:layout_width="0dp"
         android:layout_height="253dp"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextAgregarMateria"
-        tools:listitem="@layout/item_agregar_materia_con_unidad" />
+        tools:listitem="@layout/item_unidad" />
 
     <Button
         android:id="@+id/btnGuardarMaterialconUnidad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Guardar"
-        tools:layout_editor_absoluteX="273dp"
-        tools:layout_editor_absoluteY="542dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.939"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RcvMostrarUnidadesEnMaterias" />
 
     <TextView
         android:id="@+id/IdSemestre"
