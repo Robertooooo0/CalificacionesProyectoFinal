@@ -1,13 +1,10 @@
 package com.example.calificacionesproyectofinal
 
 import android.app.Activity
-import android.content.ContentValues
 import android.content.Intent
-import android.database.sqlite.SQLiteDatabase
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,8 +33,8 @@ class Unidades : AppCompatActivity(), UnidadesAdapter.OnUnidadClickListener {
         val btnSiguienteUnidades = findViewById<Button>(R.id.btnSiguienteunidades)
 
         btnSiguienteUnidades.setOnClickListener {
-            val intent = Intent(this, agregra_unidades::class.java)
-            intent.putExtra("IdSemestre", idSemestre)
+            val intent = Intent(this, agregar_materia::class.java)
+            intent.putExtra("IdSemestre", idSemestre) // Envía el ID del semestre a agregar_materia
             startActivityForResult(intent, REQUEST_CODE_AGREGAR_UNIDAD)
         }
 
@@ -80,10 +77,11 @@ class Unidades : AppCompatActivity(), UnidadesAdapter.OnUnidadClickListener {
         return unidadesList
     }
 
-    override fun onUnidadClick(id: Int, nombre: String) {
+    override fun onUnidadClick(idSemestre: Int, idUnidad: Int, nombreUnidad: String) {
         val intent = Intent(this, Materias::class.java)
-        intent.putExtra("IdUnidad", id)
-        intent.putExtra("NombreUnidad", nombre)
+        intent.putExtra("IdSemestre", idSemestre)
+        intent.putExtra("IdUnidad", idUnidad)
+        intent.putExtra("NombreUnidad", nombreUnidad)
         startActivity(intent)
     }
 
@@ -107,4 +105,3 @@ class Unidades : AppCompatActivity(), UnidadesAdapter.OnUnidadClickListener {
         adapter.notifyDataSetChanged()
     }
 }
-
