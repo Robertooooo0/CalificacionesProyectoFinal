@@ -1,5 +1,4 @@
 package com.example.calificacionesproyectofinal
-
 import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -33,7 +32,7 @@ class Unidades : AppCompatActivity(), UnidadesAdapter.OnUnidadClickListener {
         val btnSiguienteUnidades = findViewById<Button>(R.id.btnSiguienteunidades)
 
         btnSiguienteUnidades.setOnClickListener {
-            val intent = Intent(this, agregar_materia::class.java)
+            val intent = Intent(this, agregra_unidades::class.java)
             intent.putExtra("IdSemestre", idSemestre) // Envía el ID del semestre a agregar_materia
             startActivityForResult(intent, REQUEST_CODE_AGREGAR_UNIDAD)
         }
@@ -44,7 +43,7 @@ class Unidades : AppCompatActivity(), UnidadesAdapter.OnUnidadClickListener {
         // Configurar el RecyclerView con el listener
         recyclerView = findViewById(R.id.rcvMostrarUnidades)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = UnidadesAdapter(unidadesList, this)
+        adapter = UnidadesAdapter(unidadesList, idSemestre, this) // Pasar el ID del semestre al adaptador
         recyclerView.adapter = adapter
     }
 

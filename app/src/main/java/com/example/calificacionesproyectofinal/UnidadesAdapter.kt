@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 class UnidadesAdapter(
-    private val unidadesList: List<String>,
-    private val idSemestre: Int, // Agregamos el ID del semestre al constructor del adaptador
-    private val listener: OnUnidadClickListener
+
+private val unidadesList: List<String>,
+private val idSemestre: Int, // Agregamos el ID del semestre al constructor del adaptador
+private val listener: OnUnidadClickListener
 ) : RecyclerView.Adapter<UnidadesAdapter.UnidadViewHolder>() {
 
     interface OnUnidadClickListener {

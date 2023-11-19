@@ -78,11 +78,11 @@ class Semestre : AppCompatActivity() {
     }
 
     fun onClickSemestre(semestre: NombreSemestre) {
+        val intent = Intent(this, Unidades::class.java)
+        intent.putExtra("NombreSemestre", semestre.nombre)
+        intent.putExtra("IdSemestre", semestre.idSemestre)
+        startActivity(intent)
 
-            val intent = Intent(this, Unidades::class.java)
-            intent.putExtra("NombreSemestre", semestre.nombre)
-            intent.putExtra("IdSemestre", semestre.idSemestre) // Suponiendo que tienes un método para obtener el ID del semestre
-            startActivity(intent)
         }
 
         override fun onDestroy() {
