@@ -66,4 +66,15 @@
         app:layout_constraintStart_toStartOf="@+id/txtUnidadId"
         app:layout_constraintTop_toBottomOf="@+id/txtUnidadNombre" />
 
+    <TextView
+        android:id="@+id/txtTotalCalificacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.371"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rcvMateriasConCalificacion" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

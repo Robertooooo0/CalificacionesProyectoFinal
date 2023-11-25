@@ -47,6 +47,11 @@ class Materias : AppCompatActivity() {
             intent.putExtra("IdUnidad", idUnidad.toInt())
             startActivity(intent)
         }
+
+        // Calcular y mostrar la calificación final
+        val calificacionFinal = calcularPromedioCalificaciones(materiasAgregadas)
+        val txtCalificacionFinal = findViewById<TextView>(R.id.txtTotalCalificacion)
+        txtCalificacionFinal.text = "Calificación Final: $calificacionFinal"
     }
 
     private fun obtenerTodasLasMaterias(): List<Materia> {
@@ -128,5 +133,15 @@ class Materias : AppCompatActivity() {
         dbManager.close()
 
         return materiasList
+    }
+    private fun calcularPromedioCalificaciones(materias: List<Materia>): Double {
+        if (materias.isEmpty()) return 0.0
+
+        var sumaCalificaciones = 0.0
+        for (materia in materias) {
+            sumaCalificaciones += materia.calificacion
+        }
+
+        return sumaCalificaciones / materias.size
     }
 }
