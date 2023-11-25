@@ -1,6 +1,7 @@
 package com.example.calificacionesproyectofinal
 
 import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -53,6 +54,8 @@ class agregar_materia : AppCompatActivity() {
                     showToast("Materia agregada correctamente")
                     editTextAgregarMateria.setText("")
                     editTextCalificacion.setText("")
+
+
                 } else {
                     showToast("Error al agregar la materia")
                 }

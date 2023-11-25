@@ -140,7 +140,27 @@ class Materias : AppCompatActivity() {
         return materiasList
     }
 
+    private fun actualizarRecyclerView() {
+        val idUnidad = intent.getIntExtra("IdUnidad", -1).toString()
+        val idSemestre = intent.getIntExtra("IdSemestre", -1)
 
+        val materiasAgregadas = obtenerMateriasAgregadasParaUnidadYSemestre(idUnidad.toInt(), idSemestre)
+
+        val recyclerView = findViewById<RecyclerView>(R.id.rcvMateriasConCalificacion)
+        val adapter = MateriasAdapter(materiasAgregadas)
+        recyclerView.adapter = adapter
+
+        // Calcular y mostrar la calificación final
+        val calificacionFinal = calcularPromedioCalificaciones(materiasAgregadas)
+        val txtCalificacionFinal = findViewById<TextView>(R.id.txtTotalCalificacion)
+        txtCalificacionFinal.text = "Calificación Final: $calificacionFinal"
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Actualizar el RecyclerView cuando la actividad se reanude
+        actualizarRecyclerView()
+    }
 
     private fun calcularPromedioCalificaciones(materias: List<Materia>): Double {
         if (materias.isEmpty()) return 0.0
