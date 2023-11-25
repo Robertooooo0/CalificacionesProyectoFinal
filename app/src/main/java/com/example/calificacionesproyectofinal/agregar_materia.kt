@@ -51,6 +51,8 @@ class agregar_materia : AppCompatActivity() {
                 val newRowId = db.insert(DatabaseHelper.TABLE_MATERIAS, null, values)
                 if (newRowId != -1L) {
                     showToast("Materia agregada correctamente")
+                    editTextAgregarMateria.setText("")
+                    editTextCalificacion.setText("")
                 } else {
                     showToast("Error al agregar la materia")
                 }

@@ -26,12 +26,15 @@ class Materias : AppCompatActivity() {
         val idSemestre = intent.getIntExtra("IdSemestre", -1)
         txtIdSemestreU.text = "ID del Semestre: $idSemestre"
 
-        val materiasCompletas = obtenerTodasLasMaterias()
-        val materiasAgregadas =
-            obtenerMateriasAgregadasParaUnidadYSemestre(idUnidad.toInt(), idSemestre)
+        // Filtrar las materias completas para obtener solo las que tienen el mismo ID de unidad y nombre
+        val materiasCompletas = obtenerTodasLasMaterias().filter {
+            it.unidadId == idUnidad.toInt()
+        }
+
+        val materiasAgregadas = obtenerMateriasAgregadasParaUnidadYSemestre(idUnidad.toInt(), idSemestre)
 
         val materiasMostradas = materiasCompletas.filter { materia ->
-            materiasAgregadas.any { it.nombre == materia.nombre }
+            materiasAgregadas.any { it.nombre == materia.nombre && it.unidadId == materia.unidadId }
         }
 
         val recyclerView = findViewById<RecyclerView>(R.id.rcvMateriasConCalificacion)
@@ -62,7 +65,8 @@ class Materias : AppCompatActivity() {
 
         val projection = arrayOf(
             DatabaseHelper.COLUMN_NOMBRE_MATERIA,
-            DatabaseHelper.COLUMN_CALIFICACION
+            DatabaseHelper.COLUMN_CALIFICACION,
+            DatabaseHelper.COLUMN_ID_UNIDAD // Agregar el campo del ID de unidad a la consulta
         )
 
         val cursor = dbManager.queryData(
@@ -79,8 +83,9 @@ class Materias : AppCompatActivity() {
                     it.getString(it.getColumnIndex(DatabaseHelper.COLUMN_NOMBRE_MATERIA))
                 val calificacion =
                     it.getDouble(it.getColumnIndex(DatabaseHelper.COLUMN_CALIFICACION))
+                val idUnidad = it.getInt(it.getColumnIndex(DatabaseHelper.COLUMN_ID_UNIDAD))
 
-                val materia = Materia(nombreMateria, calificacion)
+                val materia = Materia(nombreMateria, calificacion, idUnidad)
                 materiasList.add(materia)
             }
         }
@@ -124,7 +129,7 @@ class Materias : AppCompatActivity() {
                 val calificacion =
                     it.getDouble(it.getColumnIndex(DatabaseHelper.COLUMN_CALIFICACION))
 
-                val materia = Materia(nombreMateria, calificacion)
+                val materia = Materia(nombreMateria, calificacion, idUnidad) // Pasar el ID de unidad a la instancia de Materia
                 materiasList.add(materia)
             }
         }
@@ -134,6 +139,9 @@ class Materias : AppCompatActivity() {
 
         return materiasList
     }
+
+
+
     private fun calcularPromedioCalificaciones(materias: List<Materia>): Double {
         if (materias.isEmpty()) return 0.0
 
