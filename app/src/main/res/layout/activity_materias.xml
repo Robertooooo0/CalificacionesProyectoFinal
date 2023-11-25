@@ -43,23 +43,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.907"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+        app:layout_constraintTop_toBottomOf="@+id/rcvMateriasConCalificacion" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="360dp"
-        android:layout_height="337dp"
+        android:id="@+id/rcvMateriasConCalificacion"
+        android:layout_width="359dp"
+        android:layout_height="282dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.557"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtUnidadNombre"
-        app:layout_constraintVertical_bias="0.222" />
+        app:layout_constraintTop_toBottomOf="@+id/txtIdSemestreMaterias"
+        app:layout_constraintVertical_bias="0.323"
+        tools:listitem="@layout/item_materia" />
 
     <TextView
         android:id="@+id/txtIdSemestreMaterias"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="3dp"
         android:layout_marginTop="32dp"
         app:layout_constraintStart_toStartOf="@+id/txtUnidadId"
         app:layout_constraintTop_toBottomOf="@+id/txtUnidadNombre" />
