@@ -37,6 +37,22 @@ public class DatabaseManager {
 
         return database.insert(DatabaseHelper.TABLE_SEMESTRES, null, contentValue);
     }
+    public int eliminarMateria(int idMateria) {
+        String whereClause = "_id=?";
+        String[] whereArgs = new String[]{String.valueOf(idMateria)};
+        return database.delete(DatabaseHelper.TABLE_MATERIAS, whereClause, whereArgs);
+    }
+
+    public int actualizarMateria(int idMateria, String nuevoNombre, double nuevaCalificacion) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseHelper.COLUMN_NOMBRE_MATERIA, nuevoNombre);
+        contentValues.put(DatabaseHelper.COLUMN_CALIFICACION, nuevaCalificacion);
+
+        String whereClause = "_id=?";
+        String[] whereArgs = new String[]{String.valueOf(idMateria)};
+        return database.update(DatabaseHelper.TABLE_MATERIAS, contentValues, whereClause, whereArgs);
+    }
+
 
     public Cursor queryData(String tableName, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         Cursor cursor = null;

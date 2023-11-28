@@ -13,6 +13,9 @@
         android:theme="@style/Theme.CalificacionesProyectoFinal"
         tools:targetApi="31">
         <activity
+            android:name=".editar_materias"
+            android:exported="false" />
+        <activity
             android:name=".agregar_materia"
             android:exported="false" />
         <activity

@@ -64,9 +64,10 @@ class Materias : AppCompatActivity() {
         val materiasList = mutableListOf<Materia>()
 
         val projection = arrayOf(
+            "_id", // Se asume que "_id" es el identificador único de la materia en la tabla
             DatabaseHelper.COLUMN_NOMBRE_MATERIA,
             DatabaseHelper.COLUMN_CALIFICACION,
-            DatabaseHelper.COLUMN_ID_UNIDAD // Agregar el campo del ID de unidad a la consulta
+            DatabaseHelper.COLUMN_ID_UNIDAD
         )
 
         val cursor = dbManager.queryData(
@@ -79,13 +80,12 @@ class Materias : AppCompatActivity() {
 
         cursor?.use {
             while (it.moveToNext()) {
-                val nombreMateria =
-                    it.getString(it.getColumnIndex(DatabaseHelper.COLUMN_NOMBRE_MATERIA))
-                val calificacion =
-                    it.getDouble(it.getColumnIndex(DatabaseHelper.COLUMN_CALIFICACION))
+                val idMateria = it.getInt(it.getColumnIndex("_id"))
+                val nombreMateria = it.getString(it.getColumnIndex(DatabaseHelper.COLUMN_NOMBRE_MATERIA))
+                val calificacion = it.getDouble(it.getColumnIndex(DatabaseHelper.COLUMN_CALIFICACION))
                 val idUnidad = it.getInt(it.getColumnIndex(DatabaseHelper.COLUMN_ID_UNIDAD))
 
-                val materia = Materia(nombreMateria, calificacion, idUnidad)
+                val materia = Materia(idMateria, nombreMateria, calificacion, idUnidad)
                 materiasList.add(materia)
             }
         }
@@ -95,6 +95,7 @@ class Materias : AppCompatActivity() {
 
         return materiasList
     }
+
 
     private fun obtenerMateriasAgregadasParaUnidadYSemestre(
         idUnidad: Int,
@@ -106,6 +107,7 @@ class Materias : AppCompatActivity() {
         val materiasList = mutableListOf<Materia>()
 
         val projection = arrayOf(
+            "_id", // Se asume que "_id" es el identificador único de la materia en la tabla
             DatabaseHelper.COLUMN_NOMBRE_MATERIA,
             DatabaseHelper.COLUMN_CALIFICACION
         )
@@ -124,12 +126,11 @@ class Materias : AppCompatActivity() {
 
         cursor?.use {
             while (it.moveToNext()) {
-                val nombreMateria =
-                    it.getString(it.getColumnIndex(DatabaseHelper.COLUMN_NOMBRE_MATERIA))
-                val calificacion =
-                    it.getDouble(it.getColumnIndex(DatabaseHelper.COLUMN_CALIFICACION))
+                val idMateria = it.getInt(it.getColumnIndex("_id"))
+                val nombreMateria = it.getString(it.getColumnIndex(DatabaseHelper.COLUMN_NOMBRE_MATERIA))
+                val calificacion = it.getDouble(it.getColumnIndex(DatabaseHelper.COLUMN_CALIFICACION))
 
-                val materia = Materia(nombreMateria, calificacion, idUnidad) // Pasar el ID de unidad a la instancia de Materia
+                val materia = Materia(idMateria, nombreMateria, calificacion, idUnidad)
                 materiasList.add(materia)
             }
         }
@@ -139,6 +140,9 @@ class Materias : AppCompatActivity() {
 
         return materiasList
     }
+
+
+
 
     private fun actualizarRecyclerView() {
         val idUnidad = intent.getIntExtra("IdUnidad", -1).toString()
