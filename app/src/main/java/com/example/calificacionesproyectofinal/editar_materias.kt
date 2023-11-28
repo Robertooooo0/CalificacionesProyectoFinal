@@ -45,6 +45,7 @@ class editar_materias : AppCompatActivity() {
                 if (rowsDeleted > 0) {
                     // La materia se eliminó correctamente
                     mostrarMensaje("Materia eliminada correctamente")
+                    finish()
                 } else {
                     // Hubo un error al eliminar la materia
                     mostrarMensaje("Error al eliminar la materia")
@@ -68,6 +69,7 @@ class editar_materias : AppCompatActivity() {
                 if (rowsUpdated > 0) {
                     // La materia se actualizó correctamente
                     mostrarMensaje("Materia actualizada correctamente")
+                    finish()
                 } else {
                     // Hubo un error al actualizar la materia
                     mostrarMensaje("Error al actualizar la materia")

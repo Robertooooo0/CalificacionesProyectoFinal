@@ -31,7 +31,8 @@ class Materias : AppCompatActivity() {
             it.unidadId == idUnidad.toInt()
         }
 
-        val materiasAgregadas = obtenerMateriasAgregadasParaUnidadYSemestre(idUnidad.toInt(), idSemestre)
+        val materiasAgregadas =
+            obtenerMateriasAgregadasParaUnidadYSemestre(idUnidad.toInt(), idSemestre)
 
         val materiasMostradas = materiasCompletas.filter { materia ->
             materiasAgregadas.any { it.nombre == materia.nombre && it.unidadId == materia.unidadId }
@@ -81,8 +82,10 @@ class Materias : AppCompatActivity() {
         cursor?.use {
             while (it.moveToNext()) {
                 val idMateria = it.getInt(it.getColumnIndex("_id"))
-                val nombreMateria = it.getString(it.getColumnIndex(DatabaseHelper.COLUMN_NOMBRE_MATERIA))
-                val calificacion = it.getDouble(it.getColumnIndex(DatabaseHelper.COLUMN_CALIFICACION))
+                val nombreMateria =
+                    it.getString(it.getColumnIndex(DatabaseHelper.COLUMN_NOMBRE_MATERIA))
+                val calificacion =
+                    it.getDouble(it.getColumnIndex(DatabaseHelper.COLUMN_CALIFICACION))
                 val idUnidad = it.getInt(it.getColumnIndex(DatabaseHelper.COLUMN_ID_UNIDAD))
 
                 val materia = Materia(idMateria, nombreMateria, calificacion, idUnidad)
@@ -127,8 +130,10 @@ class Materias : AppCompatActivity() {
         cursor?.use {
             while (it.moveToNext()) {
                 val idMateria = it.getInt(it.getColumnIndex("_id"))
-                val nombreMateria = it.getString(it.getColumnIndex(DatabaseHelper.COLUMN_NOMBRE_MATERIA))
-                val calificacion = it.getDouble(it.getColumnIndex(DatabaseHelper.COLUMN_CALIFICACION))
+                val nombreMateria =
+                    it.getString(it.getColumnIndex(DatabaseHelper.COLUMN_NOMBRE_MATERIA))
+                val calificacion =
+                    it.getDouble(it.getColumnIndex(DatabaseHelper.COLUMN_CALIFICACION))
 
                 val materia = Materia(idMateria, nombreMateria, calificacion, idUnidad)
                 materiasList.add(materia)
@@ -142,13 +147,12 @@ class Materias : AppCompatActivity() {
     }
 
 
-
-
     private fun actualizarRecyclerView() {
         val idUnidad = intent.getIntExtra("IdUnidad", -1).toString()
         val idSemestre = intent.getIntExtra("IdSemestre", -1)
 
-        val materiasAgregadas = obtenerMateriasAgregadasParaUnidadYSemestre(idUnidad.toInt(), idSemestre)
+        val materiasAgregadas =
+            obtenerMateriasAgregadasParaUnidadYSemestre(idUnidad.toInt(), idSemestre)
 
         val recyclerView = findViewById<RecyclerView>(R.id.rcvMateriasConCalificacion)
         val adapter = MateriasAdapter(materiasAgregadas)
@@ -174,6 +178,7 @@ class Materias : AppCompatActivity() {
             sumaCalificaciones += materia.calificacion
         }
 
-        return sumaCalificaciones / materias.size
+        val promedio = sumaCalificaciones / materias.size
+        return String.format("%.1f", promedio).toDouble()
     }
 }

@@ -46,6 +46,7 @@ class Semestre : AppCompatActivity() {
         val adaptador = AdaptadorS(this, listaNombresSemestre)
         rvSemestre.adapter = adaptador
         rvSemestre.layoutManager = LinearLayoutManager(this)
+
     }
 
     private fun consultarDatos(): List<NombreSemestre> {
@@ -88,5 +89,9 @@ class Semestre : AppCompatActivity() {
         override fun onDestroy() {
         super.onDestroy()
         databaseManager?.close()
+    }
+    override fun onBackPressed() {
+        // Cierra la actividad y finaliza la aplicación
+        finishAffinity()
     }
 }

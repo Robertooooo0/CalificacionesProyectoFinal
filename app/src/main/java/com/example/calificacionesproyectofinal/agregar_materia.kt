@@ -54,7 +54,7 @@ class agregar_materia : AppCompatActivity() {
                     showToast("Materia agregada correctamente")
                     editTextAgregarMateria.setText("")
                     editTextCalificacion.setText("")
-
+                    finish()
 
                 } else {
                     showToast("Error al agregar la materia")
